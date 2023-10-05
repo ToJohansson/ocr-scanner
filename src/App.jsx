@@ -147,7 +147,8 @@ function App() {
         track.stop();
       }
     });
-    // Stoppa OCR-processen när modalen stängs
+
+    // Stop the OCR-processen
     isModalOpen = false;
   }
 
