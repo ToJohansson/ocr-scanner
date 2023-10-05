@@ -1,13 +1,195 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Style the form container */
+#wtpForm {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 60px;
+  border: 5px solid #008CBA;
+  border-radius: 5px;
+  background-color: #b5aeae;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Style the labels */
+label {
+  font-weight: bold;
+  color: #000;
+  
 }
+
+/* Style the input fields */
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto; /* Center the input horizontally */
+  border: 2px solid #0f0f0f;
+  border-radius: 5px;
+  display: block; /* Ensure it's a block-level element */
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Style the submit button */
+#submit {
+  background-color: #008CBA;
+  color: #fff;
+  padding: 10px 20px;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Hover effect for the submit button */
+#submit:hover {
+  background-color: #005c80;
+}
+
+div.center {
+  text-align: center;
+  position: relative;
+}
+
+.frame {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 470px;
+  height: 75px;
+  border: 6px solid red;
+  z-index: 1;
+}
+
+.top-container {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(50% - 37.5px); 
+  background-color: rgba(224, 136, 146, 0.7);
+  filter: blur(2px); 
+  pointer-events: none; 
+  padding-right: 50px;
+  border-top: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+}
+
+.bottom-container {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(50% - 37.5px); 
+  background-color: rgba(224, 136, 146, 0.7);  
+  filter: blur(2px); 
+  pointer-events: none;
+  padding-right: 50px;
+  border-bottom: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+}
+
+.left-container {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: calc(37% - 153px);
+  background-color: rgba(224, 136, 146, 0.7);
+  filter: blur(2px); 
+  pointer-events: none;
+  padding-right: 50px;
+  border-left: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+
+}
+
+.right-container {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: -50px;
+  bottom: 0;
+  width: calc(45% - 153px); 
+  background-color: rgba(224, 136, 146, 0.7); 
+  filter: blur(2px); 
+  pointer-events: none;
+  padding-right: 50px;
+  border-right: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+}
+
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 50px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+/* Adjust the modal's maximum width to ensure it doesn't exceed the viewport width */
+.modal-content {
+  position: relative;
+  margin: auto;
+  padding-right: 40px;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 90%; /* Adjust the modal width as needed */
+  max-width: 600px;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Add a style for the button that opens the modal */
+#get-access {
+  background-color: #008CBA;
+  color: white;
+  border: 2px solid #021319;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#get-access:hover {
+  background-color: #005c80;
+}
+
+#wtpNumber {
+  box-sizing: content-box;
+  max-width: 100%; /* Adjust the maximum width as needed */
+  font-size: 18px; /* Adjust the font size as needed */
+}
+/* Style the image */
+#capturedImage {
+  max-width: 100%; /* Ensure the image doesn't exceed its container */
+  border: 5px solid #008CBA; /* Add a black border/frame around the image */
+  padding: 5px; /* Add some padding to the image within the frame */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+#downloadLink {
+  color: red;
+}
+
+
+
