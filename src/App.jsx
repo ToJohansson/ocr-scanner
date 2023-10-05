@@ -147,6 +147,7 @@ function App() {
         track.stop();
       }
     });
+
     // Stop the OCR-processen
     isModalOpen = false;
   }
