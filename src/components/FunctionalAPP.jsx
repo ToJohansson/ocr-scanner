@@ -135,7 +135,7 @@ function App() {
       }
 
       indexI++;
-      if (indexI <= 30) {
+      if (indexI <= 50) {
         // Settings for how many pictures
         if (isModalOpen) {
           captureImage();
