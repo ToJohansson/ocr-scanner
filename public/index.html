@@ -1,70 +1,73 @@
-
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OCR SCANNER</title>
 
-<head>
-
-  <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" type="text/css" href="index.css">
-
-</head>
-<body>
-
-    <div> 
-        <p>Fyll i skipass WTP-nummer manuellt eller <br> 
-            välj kamera för ajtomatisk avläsning.</p>
+    <link rel="stylesheet" type="text/css" href="../src/index.css" />
+    <link rel="stylesheet" type="text/css" href="../src/styles.css" />
+  </head>
+  <body>
+    <!-- 
+    <div></div>
+      <p>
+        Fyll i skipass WTP-nummer manuellt eller <br />
+        välj kamera för ajtomatisk avläsning.
+      </p>
     </div>
-
-
-    <br>
-
-        <form id="wtpForm" name="wtpForm" action="">
-
-
-            <div>
-                <label for="wtpNumber" >Skipass</label>
-                <input type="text" id="wtpNumber" placeholder="WTP Number" value="" maxlength="30"/> 
-            </div>
-
-
-            <br>
-
-            <input type="submit" id="submit" value="submit"/>
-
-        </form>
-
-
-
-    <br>
+    <br />
+    <form id="wtpForm" name="wtpForm" action="">
+      <div>
+        <label for="wtpNumber">Skipass</label>
+        <input
+          type="text"
+          id="wtpNumber"
+          placeholder="WTP Number"
+          value=""
+          maxlength="30"
+        />
+      </div>
+      <br />
+      <input type="submit" id="submit" value="submit" />
+    </form>
+    <br />
 
     <button id="get-access">Access Camera</button>
 
     <div id="cameraModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <video id="camera" autoplay></video>
-            <div class="frame"></div>
-            <div class="top-container"></div>
-            <div class="bottom-container"></div>
-            <div class="left-container"></div>
-            <div class="right-container"></div>
-
-        </div>
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <video id="camera" autoplay></video>
+        <div class="frame"></div>
+        <div class="top-container"></div>
+        <div class="bottom-container"></div>
+        <div class="left-container"></div>
+        <div class="right-container"></div>
+      </div>
     </div>
+ 
+    <br />
 
-    <br>
+    <div>
+      <img id="capturedImage" src="" alt="Captured Image" />
+      <a
+        href="#"
+        id="downloadLink"
+        style="display: none"
+        download="captured_image.jpg"
+        >Download Image</a
+      >
+    </div>
+-->
+    <div id="root"></div>
 
-<div>
-    <img id="capturedImage" src="" alt="Captured Image" id="image">
-    <a href="#" id="downloadLink" style="display: none" download="captured_image.jpg">Download Image</a>
-</div>
-
-<div id="root"></div>
-    <script type="module" src="../src/App.jsx" type="application/javascript"></script>
-
-</body>
+    <!--
+    <script
+      type="module"
+      src="../src/App.jsx"
+      type="application/javascript"
+    ></script>
+    -->
+  </body>
 </html>
-

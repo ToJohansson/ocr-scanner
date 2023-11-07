@@ -38,18 +38,6 @@ function App() {
       wtpNumberInput.removeEventListener("change", handleInputChange);
     };
   }, [wtpNumber]);
-  // Close the modal if the user clicks outside
-  function windowClickHandler(event) {
-    if (event.target === modal) {
-      closeModal();
-    }
-  }
-  useEffect(() => {
-    window.addEventListener("click", windowClickHandler);
-    return () => {
-      window.removeEventListener("click", windowClickHandler);
-    };
-  });
 
   // START CAMERA PROCCESS
   useEffect(() => {
@@ -177,6 +165,24 @@ function App() {
       console.error("Error during OCR:", error);
     }
   }
+
+  function extractIDNumber(inputString) {
+    // SKIDATA card pattern
+    const skidataPattern = /(\d{2}-\d{4} \d{4} \d{4} \d{4} \d{4}-\d)/;
+
+    // Use the regular expression to find a match in the input string
+    const match = inputString.match(skidataPattern);
+
+    if (match) {
+      // Extract the matched ID number from the regex match
+      const idNumber = match[0];
+
+      return idNumber;
+    } else {
+      return null;
+    }
+  }
+
   // Function to open the modal
   function openModal() {
     isModalOpen = true;
@@ -198,22 +204,18 @@ function App() {
     isModalOpen = false;
   }
 
-  function extractIDNumber(inputString) {
-    // SKIDATA card pattern
-    const skidataPattern = /(\d{2}-\d{4} \d{4} \d{4} \d{4} \d{4}-\d)/;
-
-    // Use the regular expression to find a match in the input string
-    const match = inputString.match(skidataPattern);
-
-    if (match) {
-      // Extract the matched ID number from the regex match
-      const idNumber = match[0];
-
-      return idNumber;
-    } else {
-      return null;
+  // Close the modal if the user clicks outside
+  function windowClickHandler(event) {
+    if (event.target === modal) {
+      closeModal();
     }
   }
+  useEffect(() => {
+    window.addEventListener("click", windowClickHandler);
+    return () => {
+      window.removeEventListener("click", windowClickHandler);
+    };
+  });
 
   return <div className="App"></div>;
 }
