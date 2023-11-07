@@ -1,12 +1,25 @@
+body {
+  display: flex;
+  justify-content: center;
+
+  background-color: #b5aeae;
+}
+
 /* Style the form container */
+.container-submit-form {
+  display: flex;
+  flex-direction: column;
+}
+
 #wtpForm {
   max-width: 400px;
   margin: 0 auto;
-  padding: 60px;
-  border: 5px solid #008CBA;
+  padding: 20px; /* Adjust padding as needed */
+  border: 5px solid #008cba;
   border-radius: 5px;
   background-color: #b5aeae;
 }
+
 /* Style the labels */
 label {
   font-weight: bold;
@@ -17,16 +30,16 @@ label {
 input[type="text"] {
   width: 100%;
   padding: 10px;
-  margin: 0 auto; /* Center the input horizontally */
   border: 2px solid #0f0f0f;
   border-radius: 5px;
-  display: block; /* Ensure it's a block-level element */
-  box-sizing: border-box; /* Include padding and border in width */
+  display: block;
+  box-sizing: border-box;
+  text-align: center; /* Center the text horizontally */
 }
 
 /* Style the submit button */
 #submit {
-  background-color: #008CBA;
+  background-color: #008cba;
   color: #fff;
   padding: 10px 20px;
   border: 2px solid black;
@@ -62,12 +75,12 @@ div.center {
   top: 0;
   left: 0;
   right: 0;
-  height: calc(50% - 37.5px); 
+  height: calc(50% - 37.5px);
   background-color: rgba(224, 136, 146, 0.7);
-  filter: blur(2px); 
-  pointer-events: none; 
+  filter: blur(2px);
+  pointer-events: none;
   padding-right: 50px;
-  border-top: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+  border-top: 12.5px solid #008cba; /* Add a border/frame around the modal */
 }
 
 .bottom-container {
@@ -76,12 +89,12 @@ div.center {
   bottom: 0;
   left: 0;
   right: 0;
-  height: calc(50% - 37.5px); 
-  background-color: rgba(224, 136, 146, 0.7);  
-  filter: blur(2px); 
+  height: calc(50% - 37.5px);
+  background-color: rgba(224, 136, 146, 0.7);
+  filter: blur(2px);
   pointer-events: none;
   padding-right: 50px;
-  border-bottom: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+  border-bottom: 12.5px solid #008cba; /* Add a border/frame around the modal */
 }
 
 .left-container {
@@ -92,11 +105,10 @@ div.center {
   bottom: 0;
   width: calc(37% - 153px);
   background-color: rgba(224, 136, 146, 0.7);
-  filter: blur(2px); 
+  filter: blur(2px);
   pointer-events: none;
   padding-right: 50px;
-  border-left: 12.5px solid #008CBA; /* Add a border/frame around the modal */
-
+  border-left: 12.5px solid #008cba; /* Add a border/frame around the modal */
 }
 
 .right-container {
@@ -105,14 +117,13 @@ div.center {
   top: 0;
   right: -50px;
   bottom: 0;
-  width: calc(45% - 153px); 
-  background-color: rgba(224, 136, 146, 0.7); 
-  filter: blur(2px); 
+  width: calc(45% - 153px);
+  background-color: rgba(224, 136, 146, 0.7);
+  filter: blur(2px);
   pointer-events: none;
   padding-right: 50px;
-  border-right: 12.5px solid #008CBA; /* Add a border/frame around the modal */
+  border-right: 12.5px solid #008cba; /* Add a border/frame around the modal */
 }
-
 
 .modal {
   display: none; /* Hidden by default */
@@ -155,7 +166,7 @@ div.center {
 
 /* Add a style for the button that opens the modal */
 #get-access {
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
   border: 2px solid #021319;
   padding: 10px 20px;
@@ -174,13 +185,13 @@ div.center {
 
 #wtpNumber {
   box-sizing: content-box;
-  max-width: 100%; /* Adjust the maximum width as needed */
+  max-width: 265px; /* Adjust the maximum width as needed */
   font-size: 18px; /* Adjust the font size as needed */
 }
 /* Style the image */
 #capturedImage {
   max-width: 100%; /* Ensure the image doesn't exceed its container */
-  border: 5px solid #008CBA; /* Add a black border/frame around the image */
+  border: 5px solid #008cba; /* Add a black border/frame around the image */
   padding: 5px; /* Add some padding to the image within the frame */
   box-sizing: border-box; /* Include padding and border in the width calculation */
 }
@@ -189,3 +200,45 @@ div.center {
   color: red;
 }
 
+.button-to-start-camera {
+  align-items: center;
+  appearance: none;
+  background-color: #3eb2fd;
+  background-image: linear-gradient(1deg, #4f58fd, #149bf3 99%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 100px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd, sans-serif;
+  font-size: 1rem;
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, background-position 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.button-21:active,
+.button-21:focus {
+  outline: none;
+}
+
+.button-21:hover {
+  background-position: -20px -20px;
+}
+
+.button-21:focus:not(:active) {
+  box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 0.125em;
+}
