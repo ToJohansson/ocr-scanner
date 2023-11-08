@@ -153,4 +153,5 @@ input[type="text"] {
   top: 5px;
   right: 5px;
   background-color: red;
+  border-radius: 30px;
 }
