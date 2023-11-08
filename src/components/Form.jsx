@@ -10,7 +10,7 @@ function Form({ wtpNum, onInputChange }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("WTP number submitted: " + wtpNumber);
+    alert("WTP number submitted: " + wtpNumber);
   };
 
   useEffect(() => {

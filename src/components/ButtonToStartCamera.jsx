@@ -1,12 +1,12 @@
 import React from "react";
 
-function ButtonToStartCamera({ onClick }) {
+function ButtonToStartCamera(props) {
   return (
     <div>
       <button
         className="button-to-start-camera"
         role="button"
-        onClick={onClick}
+        onClick={props.startCamera}
       >
         Start Camera
       </button>
