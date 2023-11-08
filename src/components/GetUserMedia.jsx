@@ -4,6 +4,7 @@ function GetUserMedia(props) {
   const videoRef = useRef();
   const [debugImage, setDebugImage] = useState("");
   const [isVideoRunning, setIsVideoRunning] = useState(true);
+
   let count = 1;
 
   useEffect(() => {
@@ -33,23 +34,59 @@ function GetUserMedia(props) {
         console.log("Video element is not available");
         return;
       }
+
       const videoWidth = videoRef.current.videoWidth;
       const videoHeight = videoRef.current.videoHeight;
+
+      // Create an offscreen canvas to hold the captured image
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
       context.imageSmoothingEnabled = false;
-
-      // Set the canvas dimensions to match the video frame
       canvas.width = videoWidth;
       canvas.height = videoHeight;
 
       // Capture the entire video frame
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
-      // Display the captured image
+      // Calculate the dimensions for the three sections
+      const sectionWidth = videoWidth;
+      const topSectionHeight = videoHeight / 3;
+      const middleSectionHeight = (videoHeight - topSectionHeight) / 2;
+
+      // Create two offscreen canvases for the original and blurred sections
+      const originalCanvas = document.createElement("canvas");
+      const originalContext = originalCanvas.getContext("2d");
+      originalCanvas.width = videoWidth;
+      originalCanvas.height = videoHeight;
+
+      const blurredCanvas = document.createElement("canvas");
+      blurredCanvas.width = videoWidth;
+      blurredCanvas.height = videoHeight;
+
+      // Draw the original image onto the original canvas
+      originalContext.drawImage(canvas, 0, 0, videoWidth, videoHeight);
+
+      // Draw the original and blurred sections onto the final canvas
+      canvas.width = videoWidth;
+      canvas.height = middleSectionHeight;
+
+      context.drawImage(
+        originalCanvas,
+        0,
+        topSectionHeight,
+        sectionWidth,
+        middleSectionHeight,
+        0,
+        0,
+        sectionWidth,
+        middleSectionHeight
+      );
+
+      // Convert the final canvas to a data URL
       contrastFilter(context, canvas);
       const image = canvas.toDataURL("image/jpeg");
-      console.log(count, ": IMAGE ");
+
+      console.log(count, ": IMAGE");
 
       if (count < 20) {
         if (image.length < 10) {
@@ -85,7 +122,7 @@ function GetUserMedia(props) {
       const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
 
       // Define a threshold to distinguish between black and other colors
-      const threshold = 150;
+      const threshold = 130;
 
       // If the pixel is black (below the threshold), make it even darker
       if (brightness < threshold) {
@@ -114,10 +151,11 @@ function GetUserMedia(props) {
   }
 
   return (
-    <div>
+    <div onClick={props.stopCamera}>
       {isVideoRunning && (
-        <div>
+        <div className="video-container">
           <video ref={videoRef} autoPlay playsInline muted></video>
+          <div className="overlay-frame"></div>
         </div>
       )}
       <div>
