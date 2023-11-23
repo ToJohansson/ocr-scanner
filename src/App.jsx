@@ -5,13 +5,14 @@ import ButtonToStartCamera from "./components/ButtonToStartCamera";
 import GetUserMedia from "./components/GetUserMedia";
 import "./styles.css";
 import Popup from "./components/Popup";
+import { contrastFilter } from "./utilities/imageEnhancer";
 
 function App() {
-  const [isExtractedWTPNumber, setIsExtractedWTPNumber] = useState(null);
+  const [cardNumber, setCardNumber] = useState("");
   const [isCameraStarted, setIsCameraStarted] = useState(false);
 
-  const handleInputChange = (newWTPNumber) => {
-    setIsExtractedWTPNumber(newWTPNumber);
+  const handleInputChange = (prevCardNumber) => {
+    setCardNumber(prevCardNumber);
   };
 
   const startStopCamera = () => {
@@ -26,11 +27,11 @@ function App() {
             <ButtonToStartCamera startCamera={startStopCamera} />
           ) : (
             <Popup trigger={isCameraStarted} handlePopupBtn={startStopCamera}>
-              {" "}
               <GetUserMedia
                 imageHandler={performOCR}
-                setIsExtractedWTPNumber={setIsExtractedWTPNumber}
+                onInputChange={handleInputChange}
                 stopCamera={startStopCamera}
+                filterHandler={contrastFilter}
               ></GetUserMedia>
             </Popup>
           )}
@@ -38,7 +39,7 @@ function App() {
 
         <div>
           <Form
-            wtpNum={isExtractedWTPNumber}
+            changeInputValue={cardNumber}
             onInputChange={handleInputChange}
           />
         </div>

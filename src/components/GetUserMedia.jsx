@@ -1,33 +1,61 @@
 import React, { useState, useRef, useEffect } from "react";
 
+/**
+ * *************** GetUserMedia *****************
+ *
+ * PROPS:
+ * - filterHandler: filter för att ändra kontrast mellan
+ *                  ljusa och mörka pixlar. Ska göra det lättare för
+ *                  imageHandler att läsa av bild.
+ * - imageHandler:  läser ut text från en bild, använder sig utav Tesseract.
+ * - onInputChange:  funktion som kan updatera ett state i App.
+ *                   hämtad String från imageHandler. ändar useState i App.
+ *
+ *
+ * @param {object} props
+ * @returns
+ */
+
 function GetUserMedia(props) {
   const videoRef = useRef();
   const [debugImage, setDebugImage] = useState("");
   const [isVideoRunning, setIsVideoRunning] = useState(true);
-
   let count = 1;
 
-  useEffect(() => {
-    async function startVideo() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-      } catch (error) {
-        console.error("Error accessing the camera:", error);
-      }
+  async function startVideo() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+    } catch (error) {
+      console.error("Error accessing the camera:", error);
     }
+  }
+  const handleLoadMetaData = () => {
+    // Start capturing the image when video metadata is loaded
+    captureImage();
+  };
 
+  useEffect(() => {
     startVideo();
 
-    videoRef.current.addEventListener("loadedmetadata", () => {
-      // Start capturing the image when video metadata is loaded
-      captureImage();
-    });
+    videoRef.current.addEventListener("loadedmetadata", handleLoadMetaData);
+
+    return () => {
+      console.log("unload metadata and video stream has been unmounted...");
+      if (videoRef.current) {
+        videoRef.current.removeEventListener(
+          "loadedmetadata",
+          handleLoadMetaData
+        );
+      }
+    };
   }, []);
 
+  // Function to capture a image and improve accuracy before OCR.
+  // after improvement, send forth to Tesseract OCR (props.imageHandler)
   async function captureImage() {
     try {
       if (!videoRef.current) {
@@ -42,6 +70,7 @@ function GetUserMedia(props) {
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
       context.imageSmoothingEnabled = false;
+
       canvas.width = videoWidth;
       canvas.height = videoHeight;
 
@@ -53,20 +82,19 @@ function GetUserMedia(props) {
       const topSectionHeight = videoHeight / 3;
       const middleSectionHeight = (videoHeight - topSectionHeight) / 2;
 
-      // Create two offscreen canvases for the original and blurred sections
+      // Create two offscreen canvases for the original
       const originalCanvas = document.createElement("canvas");
       const originalContext = originalCanvas.getContext("2d");
       originalCanvas.width = videoWidth;
       originalCanvas.height = videoHeight;
 
-      const blurredCanvas = document.createElement("canvas");
-      blurredCanvas.width = videoWidth;
-      blurredCanvas.height = videoHeight;
+      // manipulate context for better OCR ACCURACY
+      originalContext.filter = "contrast(1.5) grayscale(1)";
+      props.filterHandler(context, canvas);
 
       // Draw the original image onto the original canvas
       originalContext.drawImage(canvas, 0, 0, videoWidth, videoHeight);
 
-      // Draw the original and blurred sections onto the final canvas
       canvas.width = videoWidth;
       canvas.height = middleSectionHeight;
 
@@ -83,7 +111,6 @@ function GetUserMedia(props) {
       );
 
       // Convert the final canvas to a data URL
-      contrastFilter(context, canvas);
       const image = canvas.toDataURL("image/jpeg");
 
       console.log(count, ": IMAGE");
@@ -94,16 +121,15 @@ function GetUserMedia(props) {
           return;
         }
 
-        const extractedWTPNumber = await props.imageHandler(image);
-        if (extractedWTPNumber) {
-          props.setIsExtractedWTPNumber(extractedWTPNumber);
+        const idNum = await props.imageHandler(image);
+        if (idNum) {
+          props.onInputChange(idNum);
           setDebugImage(image);
 
           stopVideoStream();
           count = 1;
           return;
         }
-
         count++;
         captureImage();
       }
@@ -112,36 +138,6 @@ function GetUserMedia(props) {
     }
   }
 
-  // Function to apply a grayscale filter to the image
-  function contrastFilter(context, canvas) {
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    for (let i = 0; i < data.length; i += 4) {
-      // Calculate the brightness
-      const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
-
-      // Define a threshold to distinguish between black and other colors
-      const threshold = 130;
-
-      // If the pixel is black (below the threshold), make it even darker
-      if (brightness < threshold) {
-        data[i] = 0; // Red
-        data[i + 1] = 0; // Green
-        data[i + 2] = 0; // Blue
-      } else {
-        // If the pixel is not black, make it brighter (you can adjust the factor)
-        const brightnessDiff = brightness - threshold;
-        data[i] += brightnessDiff;
-        data[i + 1] += brightnessDiff;
-        data[i + 2] += brightnessDiff;
-      }
-    }
-
-    context.putImageData(imageData, 0, 0);
-  }
-
-  // Function to stop the video stream
   function stopVideoStream() {
     if (videoRef.current.srcObject) {
       const tracks = videoRef.current.srcObject.getTracks();
