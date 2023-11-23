@@ -18,7 +18,7 @@ async function captureImage() {
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
     // Display the captured image
-    contrastFilter(context, canvas);
+    // contrastFilter(context, canvas);
     const image = canvas.toDataURL("image/jpeg");
     console.log(count, ": IMAGE ");
     console.log(image);

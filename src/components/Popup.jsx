@@ -1,5 +1,14 @@
 import React from "react";
-
+/**
+ * Popup Window
+ *
+ * props:
+ *       - onCloseCamera är en funktion som sätter ett state i App
+ *         till true eller false
+ *
+ * @param {object} props
+ * @returns
+ */
 function Popup(props) {
   return props.trigger ? (
     <div className="popup">

@@ -1,28 +1,45 @@
-function extractIDNumber(inputString) {
+/**
+ *
+ *  ************* extract-string-pattern  ****************
+ *
+ *  Denna komponent kollar om skickad sträng innehåller ett förbestämt mönster.
+ *  om "ja", skickar då tillbaka bara det upptäckta mönstret,
+ *  Annars returnera null
+ *
+ * props:
+ *      - inputstring: en text sträng
+ *
+ * @param {object} inputString
+ * @returns
+ */
+function skipassIdNumber(inputString) {
   console.log("extract ", inputString);
-  // inputString test for team axess
-  //inputString = "12345ABC-123-ABC";
 
-  //WTP-card pattern
-  const skidataPattern = /(\d{2}-\d{4} \d{4} \d{4} \d{4} \d{4}-\d)/;
-  const teamAxessPattern = /^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{3}-[a-zA-Z0-9]{3}$/;
+  const skidataId = extractSkidataId(inputString);
+  const teamAxessId = extractTeamAxessId(inputString);
 
-  // Use the regular expression to find a match in the input string
-  const skidataMatch = inputString.match(skidataPattern);
-  const teamAxessMatch = inputString.match(teamAxessPattern);
-
-  // if its a skidata number
-  if (skidataMatch) {
-    console.log("Skidata card detected: ", skidataMatch[0]);
-    return skidataMatch[0];
-  } // if its a team axess number
-  else if (teamAxessMatch) {
-    console.log("Axess Card detected: ", teamAxessMatch[0]);
-    return teamAxessMatch[0];
-  } // No match
-  else {
-    return null;
+  if (skidataId) {
+    console.log("Skidata card detected: ", skidataId);
+    return skidataId;
+  } else if (teamAxessId) {
+    console.log("Axess Card detected: ", teamAxessId);
+    return teamAxessId;
+  } else {
+    console.log("No valid card ID detected.");
+    return undefined;
   }
 }
 
-export default extractIDNumber;
+function extractSkidataId(inputString) {
+  const skidataPattern = /(\d{2}-\d{4} \d{4} \d{4} \d{4} \d{4}-\d)/;
+  const skidataMatch = inputString.match(skidataPattern);
+  return skidataMatch ? skidataMatch[0] : null;
+}
+
+function extractTeamAxessId(inputString) {
+  const teamAxessPattern = /^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{3}-[a-zA-Z0-9]{3}$/;
+  const teamAxessMatch = inputString.match(teamAxessPattern);
+  return teamAxessMatch ? teamAxessMatch[0] : null;
+}
+
+export default skipassIdNumber;

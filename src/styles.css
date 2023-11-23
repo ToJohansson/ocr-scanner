@@ -6,7 +6,7 @@
 }
 
 main {
-  background-color: rgb(215, 250, 245);
+  background-color: rgb(243, 238, 238);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -24,7 +24,7 @@ main {
 #wtpForm {
   max-width: 400px;
   margin: 0 auto;
-  padding: 20px; /* Adjust padding as needed */
+  padding: 20px;
   border: 5px solid #008cba;
   border-radius: 5px;
   background-color: #b5aeae;
@@ -44,7 +44,11 @@ input[type="text"] {
   border-radius: 5px;
   display: block;
   box-sizing: border-box;
-  text-align: center; /* Center the text horizontally */
+  text-align: center;
+}
+.input-form {
+  width: 600px;
+  height: 100px;
 }
 
 /* Style the submit button */

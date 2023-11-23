@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from "react";
-
-function Form({ wtpNum, onInputChange }) {
-  const [wtpNumber, setWtpNumber] = useState("");
+/**
+ * Form för att skriva in WTP id manuellt
+ * eller ta emot en WTP sträng
+ * PROPS
+ *      - changeInputValue: kan skicka en sträng som kommer visas i input fältet
+ *      - onInputChange: funktion som kan updatera ett state i App.
+ * @param {object} param0
+ * @returns
+ */
+function Form(props) {
+  const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
-    setWtpNumber(e.target.value);
-    onInputChange(e.target.value); // Notify the parent component of the change
+    setInputValue(e.target.value);
+    props.onInputChange(e.target.value); // Notify the parent component of the change
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("WTP number submitted: " + wtpNumber);
+    alert("WTP number submitted: " + inputValue);
   };
 
   useEffect(() => {
-    if (wtpNum !== null && wtpNum !== "") {
-      setWtpNumber(wtpNum);
+    if (props.changeInputValue !== null && props.changeInputValue !== "") {
+      setInputValue(props.changeInputValue);
     }
-  }, [wtpNum]);
+  }, [props.changeInputValue]);
 
   return (
     <div className="container-submit-form">
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="wtpNumber">Skipass</label>
+          <label htmlFor="inputValue">Skipass</label>
           <input
+            className="form-input"
             type="text"
-            id="wtpNumber"
+            id="inputValue"
             placeholder="Enter WTP Number Here"
-            value={wtpNumber}
+            value={inputValue}
             maxLength="30"
             onChange={handleInputChange}
           />
