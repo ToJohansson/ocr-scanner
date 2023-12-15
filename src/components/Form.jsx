@@ -33,12 +33,11 @@ function Form(props) {
         <div>
           <label htmlFor="inputValue">Skipass</label>
           <input
-            className="form-input"
+            className="input-form"
             type="text"
             id="inputValue"
             placeholder="Enter WTP Number Here"
             value={inputValue}
-            maxLength="30"
             onChange={handleInputChange}
           />
         </div>

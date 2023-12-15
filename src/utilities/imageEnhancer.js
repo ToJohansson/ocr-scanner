@@ -17,7 +17,7 @@ export function contrastFilter(context, canvas) {
     const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
 
     // Define a threshold to distinguish between black and other colors
-    const threshold = 170;
+    const threshold = 200;
 
     // If the pixel is black (below the threshold), make it even darker
     if (brightness < threshold) {

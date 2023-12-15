@@ -11,8 +11,6 @@ import Tesseract from "tesseract.js";
  *               ett visst mönster i skickad sträng matchar ett
  *               specifikt förutbestämt mönster.
  *
- *
- *
  * @param {object} image
  * @returns
  */
