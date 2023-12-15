@@ -13,10 +13,8 @@
  * @returns
  */
 function skipassIdNumber(inputString) {
-  console.log("extract ", inputString);
-
-  const skidataId = extractSkidataId(inputString);
   const teamAxessId = extractTeamAxessId(inputString);
+  const skidataId = extractSkidataId(inputString);
 
   if (skidataId) {
     console.log("Skidata card detected: ", skidataId);

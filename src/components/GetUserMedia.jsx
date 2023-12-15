@@ -17,15 +17,16 @@ import React, { useState, useRef, useEffect } from "react";
  */
 
 function GetUserMedia(props) {
-  const videoRef = useRef();
-  const [debugImage, setDebugImage] = useState("");
+  const videoRef = useRef(null);
   const [isVideoRunning, setIsVideoRunning] = useState(true);
   let count = 1;
 
   async function startVideo() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          facingMode: "environment",
+        },
       });
       videoRef.current.srcObject = stream;
       videoRef.current.play();
@@ -34,22 +35,20 @@ function GetUserMedia(props) {
     }
   }
   const handleLoadMetaData = () => {
-    // Start capturing the image when video metadata is loaded
     captureImage();
   };
 
   useEffect(() => {
+    const videoElement = videoRef.current;
+
     startVideo();
 
-    videoRef.current.addEventListener("loadedmetadata", handleLoadMetaData);
+    videoElement.addEventListener("loadedmetadata", handleLoadMetaData);
 
     return () => {
-      console.log("unload metadata and video stream has been unmounted...");
-      if (videoRef.current) {
-        videoRef.current.removeEventListener(
-          "loadedmetadata",
-          handleLoadMetaData
-        );
+      if (videoElement) {
+        videoElement.removeEventListener("loadedmetadata", handleLoadMetaData);
+        videoElement.srcObject = null;
       }
     };
   }, []);
@@ -89,8 +88,8 @@ function GetUserMedia(props) {
       originalCanvas.height = videoHeight;
 
       // manipulate context for better OCR ACCURACY
-      originalContext.filter = "contrast(1.5) grayscale(1)";
-      props.filterHandler(context, canvas);
+      // originalContext.filter = "grayscale(1)";
+      // props.filterHandler(context, canvas);
 
       // Draw the original image onto the original canvas
       originalContext.drawImage(canvas, 0, 0, videoWidth, videoHeight);
@@ -112,10 +111,7 @@ function GetUserMedia(props) {
 
       // Convert the final canvas to a data URL
       const image = canvas.toDataURL("image/jpeg");
-
-      console.log(count, ": IMAGE");
-
-      if (count < 20) {
+      if (count < 30) {
         if (image.length < 10) {
           console.log(" IMAGE IS BROKEN ", image);
           return;
@@ -124,14 +120,13 @@ function GetUserMedia(props) {
         const idNum = await props.imageHandler(image);
         if (idNum) {
           props.onInputChange(idNum);
-          setDebugImage(image);
-
           stopVideoStream();
-          count = 1;
           return;
         }
         count++;
         captureImage();
+      } else {
+        stopVideoStream();
       }
     } catch (error) {
       console.error("Error capturing image:", error);
@@ -144,23 +139,23 @@ function GetUserMedia(props) {
       tracks.forEach((track) => track.stop());
     }
     setIsVideoRunning(false);
+    props.stopCamera();
   }
-
   return (
-    <div onClick={props.stopCamera}>
+    <div onClick={() => stopVideoStream() && props.stopCamera}>
       {isVideoRunning && (
         <div className="video-container">
-          <video ref={videoRef} autoPlay playsInline muted></video>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            width="100%"
+            height="100%"
+          ></video>
           <div className="overlay-frame"></div>
         </div>
       )}
-      <div>
-        {debugImage && (
-          <div>
-            <img src={debugImage} alt="" />
-          </div>
-        )}
-      </div>
     </div>
   );
 }

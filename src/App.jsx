@@ -15,25 +15,36 @@ function App() {
     setCardNumber(prevCardNumber);
   };
 
-  const startStopCamera = () => {
+  const handleCamera = () => {
     setIsCameraStarted((prevIsCameraStarted) => !prevIsCameraStarted);
   };
 
+  /** <Popup trigger={isCameraStarted} handlePopupBtn={handleCamera}>
+               </Popup> */
   return (
-    <div className="App">
+    <div className="Main">
       <main>
         <div>
+          Saker som kan påverka: <br />- <b>Ljus:</b> För starkt
+          dagsljus/lampljus eller för mörkt. <br />- <b>Fokus:</b> Dåligt fokus
+          ger suddiga bilder. <br />- <b>Still:</b> Kameran eller kortet är inte
+          helt stilla när bilden tas. <br />- <b>Färger:</b> kan få bilden att
+          smälta ihop med omgivningen. <br />
+        </div>
+        <div>
           {!isCameraStarted ? (
-            <ButtonToStartCamera startCamera={startStopCamera} />
+            <ButtonToStartCamera startCamera={handleCamera} />
           ) : (
-            <Popup trigger={isCameraStarted} handlePopupBtn={startStopCamera}>
-              <GetUserMedia
-                imageHandler={performOCR}
-                onInputChange={handleInputChange}
-                stopCamera={startStopCamera}
-                filterHandler={contrastFilter}
-              ></GetUserMedia>
-            </Popup>
+            <div>
+              {isCameraStarted && (
+                <GetUserMedia
+                  imageHandler={performOCR}
+                  onInputChange={handleInputChange}
+                  stopCamera={handleCamera}
+                  filterHandler={contrastFilter}
+                ></GetUserMedia>
+              )}
+            </div>
           )}
         </div>
 
