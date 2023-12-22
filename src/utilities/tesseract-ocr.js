@@ -1,4 +1,4 @@
-import skipassIdNumber from "./extract-string-pattern";
+import { skipassIdNumber } from "./extract-string-pattern";
 import Tesseract from "tesseract.js";
 /**
  * ************* PerformOCR *******************
@@ -14,7 +14,7 @@ import Tesseract from "tesseract.js";
  * @param {object} image
  * @returns
  */
-export async function performOCR(image) {
+export const performOCR = async (image) => {
   try {
     const {
       data: { text },
@@ -28,4 +28,4 @@ export async function performOCR(image) {
   } catch (error) {
     console.error("Error during OCR:", error);
   }
-}
+};
