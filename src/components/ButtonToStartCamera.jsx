@@ -1,4 +1,3 @@
-import React from "react";
 /**
  * knapp för att starta kameran.
  * tar emot en funktion som byter state på en bool.
@@ -6,18 +5,16 @@ import React from "react";
  * @param {object} props
  * @returns
  */
-function ButtonToStartCamera(props) {
+const ButtonToStartCamera = (props) => {
   return (
-    <div>
-      <button
-        className="button-to-start-camera"
-        role="button"
-        onClick={props.startCamera}
-      >
-        Start Camera
-      </button>
-    </div>
+    <button
+      className="button-to-start-camera"
+      role="button"
+      onClick={props.startCamera}
+    >
+      Start Camera
+    </button>
   );
-}
+};
 
 export default ButtonToStartCamera;

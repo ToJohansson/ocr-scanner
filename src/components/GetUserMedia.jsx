@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /**
  * *************** GetUserMedia *****************
  *
  * PROPS:
- * - filterHandler: filter för att ändra kontrast mellan
- *                  ljusa och mörka pixlar. Ska göra det lättare för
- *                  imageHandler att läsa av bild.
+ *
  * - imageHandler:  läser ut text från en bild, använder sig utav Tesseract.
  * - onInputChange:  funktion som kan updatera ett state i App.
  *                   hämtad String från imageHandler. ändar useState i App.
@@ -16,27 +14,10 @@ import React, { useState, useRef, useEffect } from "react";
  * @returns
  */
 
-function GetUserMedia(props) {
+const GetUserMedia = (props) => {
   const videoRef = useRef(null);
   const [isVideoRunning, setIsVideoRunning] = useState(true);
   let count = 1;
-
-  async function startVideo() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "environment",
-        },
-      });
-      videoRef.current.srcObject = stream;
-      videoRef.current.play();
-    } catch (error) {
-      console.error("Error accessing the camera:", error);
-    }
-  }
-  const handleLoadMetaData = () => {
-    captureImage();
-  };
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -53,9 +34,25 @@ function GetUserMedia(props) {
     };
   }, []);
 
-  // Function to capture a image and improve accuracy before OCR.
-  // after improvement, send forth to Tesseract OCR (props.imageHandler)
-  async function captureImage() {
+  const startVideo = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "environment",
+        },
+      });
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+    } catch (error) {
+      console.error("Error accessing the camera:", error);
+    }
+  };
+  const handleLoadMetaData = () => {
+    captureImage();
+  };
+
+  // after Image is captured, send to Tesseract OCR (props.imageHandler)
+  const captureImage = async () => {
     try {
       if (!videoRef.current) {
         console.log("Video element is not available");
@@ -86,10 +83,6 @@ function GetUserMedia(props) {
       const originalContext = originalCanvas.getContext("2d");
       originalCanvas.width = videoWidth;
       originalCanvas.height = videoHeight;
-
-      // manipulate context for better OCR ACCURACY
-      // originalContext.filter = "grayscale(1)";
-      // props.filterHandler(context, canvas);
 
       // Draw the original image onto the original canvas
       originalContext.drawImage(canvas, 0, 0, videoWidth, videoHeight);
@@ -131,18 +124,18 @@ function GetUserMedia(props) {
     } catch (error) {
       console.error("Error capturing image:", error);
     }
-  }
+  };
 
-  function stopVideoStream() {
+  const stopVideoStream = () => {
     if (videoRef.current.srcObject) {
       const tracks = videoRef.current.srcObject.getTracks();
       tracks.forEach((track) => track.stop());
     }
     setIsVideoRunning(false);
     props.stopCamera();
-  }
+  };
   return (
-    <div onClick={() => stopVideoStream() && props.stopCamera}>
+    <div onClick={stopVideoStream}>
       {isVideoRunning && (
         <div className="video-container">
           <video
@@ -158,6 +151,6 @@ function GetUserMedia(props) {
       )}
     </div>
   );
-}
+};
 
 export default GetUserMedia;

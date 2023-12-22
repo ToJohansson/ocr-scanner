@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 /**
  * Form för att skriva in WTP id manuellt
  * eller ta emot en WTP sträng
@@ -8,8 +8,14 @@ import React, { useEffect, useState } from "react";
  * @param {object} param0
  * @returns
  */
-function Form(props) {
+const Form = (props) => {
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (props.changeInputValue !== null && props.changeInputValue !== "") {
+      setInputValue(props.changeInputValue);
+    }
+  }, [props.changeInputValue]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -21,31 +27,21 @@ function Form(props) {
     alert("WTP number submitted: " + inputValue);
   };
 
-  useEffect(() => {
-    if (props.changeInputValue !== null && props.changeInputValue !== "") {
-      setInputValue(props.changeInputValue);
-    }
-  }, [props.changeInputValue]);
-
   return (
-    <div className="container-submit-form">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="inputValue">Skipass</label>
-          <input
-            className="input-form"
-            type="text"
-            id="inputValue"
-            placeholder="Enter WTP Number Here"
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-        </div>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="inputValue">Skipass</label>
+      <input
+        className="input-form"
+        type="text"
+        id="inputValue"
+        placeholder="Enter WTP Number Here"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
 
-        <input type="submit" id="submit" value="submit" />
-      </form>
-    </div>
+      <input type="submit" id="submit" value="submit" />
+    </form>
   );
-}
+};
 
 export default Form;
