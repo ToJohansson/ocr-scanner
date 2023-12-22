@@ -5,7 +5,7 @@ import ButtonToStartCamera from "./components/ButtonToStartCamera";
 import GetUserMedia from "./components/GetUserMedia";
 import "./styles.css";
 
-function App() {
+const App = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [toggleIsCamera, setToggleIsCamera] = useState(false);
 
@@ -55,6 +55,6 @@ function App() {
       <Form changeInputValue={cardNumber} onInputChange={handleInputChange} />
     </main>
   );
-}
+};
 
 export default App;
