@@ -10,12 +10,18 @@ import { useState, useRef, useEffect } from "react";
  *                   hämtad String från imageHandler. ändar useState i App.
  *
  *
- * @param {object} props
+ * @param {void} props
  * @returns
  */
 
-const GetUserMedia = (props) => {
-  const videoRef = useRef(null);
+interface Props {
+  imageHandler: (image: string) => Promise<string | null | undefined>;
+  onInputChange: (prevCardNumber: string) => void;
+  stopCamera: () => void;
+}
+
+const GetUserMedia = (props: Props) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoRunning, setIsVideoRunning] = useState(true);
   let count = 1;
 
@@ -24,7 +30,9 @@ const GetUserMedia = (props) => {
 
     startVideo();
 
-    videoElement.addEventListener("loadedmetadata", handleLoadMetaData);
+    if (videoElement) {
+      videoElement.addEventListener("loadedmetadata", handleLoadMetaData);
+    }
 
     return () => {
       if (videoElement) {
@@ -41,8 +49,19 @@ const GetUserMedia = (props) => {
           facingMode: "environment",
         },
       });
-      videoRef.current.srcObject = stream;
-      videoRef.current.play();
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+        videoRef.current.srcObject = stream;
+
+        await new Promise((resolve) => {
+          videoRef.current?.addEventListener("loadedmetadata", resolve, {
+            once: true,
+          });
+        });
+
+        await videoRef.current.play();
+      }
     } catch (error) {
       console.error("Error accessing the camera:", error);
     }
@@ -65,6 +84,8 @@ const GetUserMedia = (props) => {
       // Create an offscreen canvas to hold the captured image
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
+
+      if (!context) return;
       context.imageSmoothingEnabled = false;
 
       canvas.width = videoWidth;
@@ -85,6 +106,7 @@ const GetUserMedia = (props) => {
       originalCanvas.height = videoHeight;
 
       // Draw the original image onto the original canvas
+      if (!originalContext) return;
       originalContext.drawImage(canvas, 0, 0, videoWidth, videoHeight);
 
       canvas.width = videoWidth;
@@ -127,7 +149,7 @@ const GetUserMedia = (props) => {
   };
 
   const stopVideoStream = () => {
-    if (videoRef.current.srcObject) {
+    if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
       const tracks = videoRef.current.srcObject.getTracks();
       tracks.forEach((track) => track.stop());
     }

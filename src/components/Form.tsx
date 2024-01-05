@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { Interface } from "readline";
 /**
  * Form för att skriva in WTP id manuellt
  * eller ta emot en WTP sträng
@@ -8,23 +9,28 @@ import { useEffect, useState } from "react";
  * @param {object} param0
  * @returns
  */
-const Form = (props) => {
+
+interface Props {
+  changeInputValue: string;
+  onInputChange: (prevCardNumber: string) => void;
+}
+
+const Form = ({ changeInputValue, onInputChange }: Props) => {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    if (props.changeInputValue !== null && props.changeInputValue !== "") {
-      setInputValue(props.changeInputValue);
+    if (changeInputValue !== null && changeInputValue !== "") {
+      setInputValue(changeInputValue);
     }
-  }, [props.changeInputValue]);
+  }, [changeInputValue]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    props.onInputChange(e.target.value); // Notify the parent component of the change
+    onInputChange(e.target.value);
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    alert("WTP number submitted: " + inputValue);
+    console.log("WTP number submitted: " + inputValue);
   };
 
   return (

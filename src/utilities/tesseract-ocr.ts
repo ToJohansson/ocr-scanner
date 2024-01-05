@@ -11,10 +11,10 @@ import Tesseract from "tesseract.js";
  *               ett visst mönster i skickad sträng matchar ett
  *               specifikt förutbestämt mönster.
  *
- * @param {object} image
- * @returns
+ * @param {string} image
+ * @returns {Promise<string | null | undefined>}
  */
-export const performOCR = async (image) => {
+export const performOCR = async (image: string) => {
   try {
     const {
       data: { text },
