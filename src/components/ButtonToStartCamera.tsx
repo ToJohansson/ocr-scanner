@@ -5,7 +5,10 @@
  * @param {object} props
  * @returns
  */
-const ButtonToStartCamera = (props) => {
+interface Props {
+  startCamera: () => void;
+}
+const ButtonToStartCamera = (props: Props) => {
   return (
     <button
       className="button-to-start-camera"

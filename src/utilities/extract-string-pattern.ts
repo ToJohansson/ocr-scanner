@@ -9,10 +9,10 @@
  * props:
  *      - inputstring: en text sträng
  *
- * @param {object} inputString
- * @returns
+ * @param {string} inputString
+ * @returns {string | undefined}
  */
-export const skipassIdNumber = (inputString) => {
+export const skipassIdNumber = (inputString: string): string | undefined => {
   const teamAxessId = extractTeamAxessId(inputString);
   const skidataId = extractSkidataId(inputString);
 
@@ -30,13 +30,13 @@ export const skipassIdNumber = (inputString) => {
   return undefined;
 };
 
-const extractSkidataId = (inputString) => {
+const extractSkidataId = (inputString: string): string | null => {
   const skidataPattern = /(\d{2}-\d{4} \d{4} \d{4} \d{4} \d{4}-\d)/;
   const skidataMatch = inputString.match(skidataPattern);
   return skidataMatch ? skidataMatch[0] : null;
 };
 
-const extractTeamAxessId = (inputString) => {
+const extractTeamAxessId = (inputString: string): string | null => {
   const teamAxessPattern = /^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{3}-[a-zA-Z0-9]{3}$/;
   const teamAxessMatch = inputString.match(teamAxessPattern);
   return teamAxessMatch ? teamAxessMatch[0] : null;

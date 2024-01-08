@@ -9,7 +9,7 @@ const App = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [toggleIsCamera, setToggleIsCamera] = useState(false);
 
-  const handleInputChange = (prevCardNumber) => {
+  const handleInputChange = (prevCardNumber: string) => {
     setCardNumber(prevCardNumber);
   };
 
